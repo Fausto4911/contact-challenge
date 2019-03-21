@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,12 +8,19 @@ import { JhiAlertService } from 'ng-jhipster';
 import { IPerson } from 'app/shared/model/person.model';
 import { PersonService } from './person.service';
 import { IUser, UserService } from 'app/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
+@NgModule({
+    imports: [ReactiveFormsModule]
+})
 @Component({
     selector: 'jhi-person-update',
     templateUrl: './person-update.component.html'
 })
 export class PersonUpdateComponent implements OnInit {
+    name = new FormControl('');
     person: IPerson;
     isSaving: boolean;
 
@@ -56,6 +63,10 @@ export class PersonUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    protected save() {
+        console.log('attempt to save!');
     }
 
     protected onError(errorMessage: string) {
