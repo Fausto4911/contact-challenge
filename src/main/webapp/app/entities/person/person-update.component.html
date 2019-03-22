@@ -1,17 +1,67 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+        <!--public id?: number,-->
+        <!--public fullname?: string,-->
+        <!--public documentNumber?: string,-->
+        <!--public documentType?: PersonDocumentType,-->
+        <!--public birthday?: Moment,-->
+        <!--public gender?: Gender,-->
+        <!--public userLogin?: string,-->
+        <!--public userId?: number,-->
+        <!--public addresses?: IAddress[],-->
+        <!--public personContacts?: IPersonContact[]-->
+        <form name="editForm" role="form" [formGroup]="myForm" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-address-heading">Create or edit a Person</h2>
             <div class="form-group">
                 <label for="id">ID</label>
                 <input type="text" class="form-control" id="id" name="id"
                          />
+
             </div>
             <div class="form-group">
-                <label for="id">ID2</label>
-                <input type="text" class="form-control" id="id2" name="id2"
+                <label for="id">FULL NAME</label>
+                <input type="text" class="form-control"  required ngModel formControlName="fullname" id="fullname" name="fullname" #fullname="ngModel"
                         />
+                <div class="alert alert-danger" *ngIf=" fullname.touched && !fullname.valid" >
+                    <label>full name is required</label>
+                </div>
             </div>
+            <div class="form-group">
+                <label for="id">Document Number</label>
+                <input type="text" class="form-control" ngModel id="documentNumber" name="documentNumber"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">Document Type</label>
+                <input type="text" class="form-control" ngModel id="documentType" name="documentType"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">Birthday</label>
+                <input type="text" class="form-control" ngModel id="birthday" name="fullname"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">Gender</label>
+                <input type="text" class="form-control" ngModel id="gender" name="gender"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">User Login</label>
+                <input type="text" class="form-control" ngModel id="userLogin" name="userLogin"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">Addresses</label>
+                <input type="text" class="form-control" ngModel id="addresses" name="addresses"
+                />
+            </div>
+            <div class="form-group">
+                <label for="id">Person contacts</label>
+                <input type="text" class="form-control" ngModel id="personContacts" name="personContacts"
+                />
+            </div>
+
 
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -5,22 +5,27 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
-import { IPerson } from 'app/shared/model/person.model';
+import { Gender, IPerson, PersonDocumentType } from 'app/shared/model/person.model';
 import { PersonService } from './person.service';
 import { IUser, UserService } from 'app/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { IAddress } from 'app/shared/model/address.model';
+import { Moment } from 'moment';
+import { IPersonContact } from 'app/shared/model/person-contact.model';
 
 @NgModule({
-    imports: [ReactiveFormsModule]
+    imports: [
+        // other imports ...
+        ReactiveFormsModule
+    ]
 })
 @Component({
     selector: 'jhi-person-update',
     templateUrl: './person-update.component.html'
 })
 export class PersonUpdateComponent implements OnInit {
-    name = new FormControl('');
+    myForm: FormGroup;
     person: IPerson;
     isSaving: boolean;
 
@@ -31,10 +36,32 @@ export class PersonUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected personService: PersonService,
         protected userService: UserService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        private fb: FormBuilder
     ) {}
 
     ngOnInit() {
+        // public id?: number,
+        // public fullname?: string,
+        // public documentNumber?: string,
+        // public documentType?: PersonDocumentType,
+        // public birthday?: Moment,
+        // public gender?: Gender,
+        // public userLogin?: string,
+        // public userId?: number,
+        // public addresses?: IAddress[],
+        // public personContacts?: IPersonContact[]
+        this.myForm = this.fb.group({
+            id: [''],
+            fullname: [''],
+            documentNumber: [''],
+            birthday: [''],
+            gender: [''],
+            userLogin: [''],
+            userId: [''],
+            addresss: [''],
+            personContacts: ['']
+        });
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ person }) => {
             this.person = person;
@@ -67,6 +94,7 @@ export class PersonUpdateComponent implements OnInit {
 
     protected save() {
         console.log('attempt to save!');
+        console.log(this.person);
     }
 
     protected onError(errorMessage: string) {
