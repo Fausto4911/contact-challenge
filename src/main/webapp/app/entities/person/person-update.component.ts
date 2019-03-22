@@ -1,6 +1,6 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -8,27 +8,28 @@ import { JhiAlertService } from 'ng-jhipster';
 import { Gender, IPerson, PersonDocumentType } from 'app/shared/model/person.model';
 import { PersonService } from './person.service';
 import { IUser, UserService } from 'app/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { IAddress } from 'app/shared/model/address.model';
-import { Moment } from 'moment';
-import { IPersonContact } from 'app/shared/model/person-contact.model';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 
-@NgModule({
-    imports: [
-        // other imports ...
-        ReactiveFormsModule
-    ]
-})
 @Component({
     selector: 'jhi-person-update',
     templateUrl: './person-update.component.html'
 })
 export class PersonUpdateComponent implements OnInit {
-    myForm: FormGroup;
+    myForm = new FormGroup({
+        id: new FormControl(),
+        fullname: new FormControl(),
+        documentNumber: new FormControl(),
+        documentType: new FormControl(),
+        birthday: new FormControl(),
+        gender: new FormControl(),
+        userLogin: new FormControl(),
+        userId: new FormControl(),
+        addresses: new FormControl(),
+        personContacts: new FormControl()
+    });
     person: IPerson;
     isSaving: boolean;
-
     users: IUser[];
     birthdayDp: any;
 
@@ -37,31 +38,10 @@ export class PersonUpdateComponent implements OnInit {
         protected personService: PersonService,
         protected userService: UserService,
         protected activatedRoute: ActivatedRoute,
-        private fb: FormBuilder
+        protected http: HttpClient
     ) {}
 
     ngOnInit() {
-        // public id?: number,
-        // public fullname?: string,
-        // public documentNumber?: string,
-        // public documentType?: PersonDocumentType,
-        // public birthday?: Moment,
-        // public gender?: Gender,
-        // public userLogin?: string,
-        // public userId?: number,
-        // public addresses?: IAddress[],
-        // public personContacts?: IPersonContact[]
-        this.myForm = this.fb.group({
-            id: [''],
-            fullname: [''],
-            documentNumber: [''],
-            birthday: [''],
-            gender: [''],
-            userLogin: [''],
-            userId: [''],
-            addresss: [''],
-            personContacts: ['']
-        });
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ person }) => {
             this.person = person;
@@ -93,8 +73,15 @@ export class PersonUpdateComponent implements OnInit {
     }
 
     protected save() {
-        console.log('attempt to save!');
+        this.isSaving = true;
+        this.fillPersonObjectFromForm();
         console.log(this.person);
+        // if (this.person.id !== undefined) {
+        //     this.subscribeToSaveResponse(this.personService.update(this.person));
+        // } else {
+        //     this.subscribeToSaveResponse(this.personService.create(this.person));
+        // }
+        this.subscribeToSaveResponse(this.personService.create(this.person));
     }
 
     protected onError(errorMessage: string) {
@@ -103,5 +90,25 @@ export class PersonUpdateComponent implements OnInit {
 
     trackUserById(index: number, item: IUser) {
         return item.id;
+    }
+
+    private fillPersonObjectFromForm() {
+        var dateString = this.myForm.value.birthday;
+        var momentObj = moment(dateString, DATE_FORMAT);
+        var docType = PersonDocumentType.PASSPORT;
+        if (this.myForm.value.documentType == 0) docType = PersonDocumentType.ID;
+        var gender = Gender.FEMALE;
+        if (this.myForm.value.gender == 0) gender = Gender.MALE;
+
+        this.person.id = this.myForm.value.id;
+        this.person.fullname = this.myForm.value.fullname;
+        this.person.documentNumber = this.myForm.value.documentNumber;
+        this.person.documentType = docType;
+        this.person.birthday = momentObj;
+        this.person.gender = gender;
+        this.person.userLogin = this.myForm.value.userLogin;
+        this.person.userId = this.myForm.value.userId;
+        this.person.addresses = this.myForm.value.addresses;
+        this.person.personContacts = this.myForm.value.personContacts;
     }
 }

@@ -2,6 +2,7 @@ package com.claro.cc.web.rest;
 import com.claro.cc.service.PersonInfoService;
 import com.claro.cc.service.PersonService;
 import com.claro.cc.service.dto.PersonFullDTO;
+import com.claro.cc.service.impl.PersonInfoServiceImpl;
 import com.claro.cc.web.rest.errors.BadRequestAlertException;
 import com.claro.cc.web.rest.util.HeaderUtil;
 import com.claro.cc.web.rest.util.PaginationUtil;
@@ -9,6 +10,7 @@ import com.claro.cc.service.dto.PersonDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -36,7 +38,7 @@ public class PersonResource {
     private final PersonService personService;
     private final PersonInfoService personInfoService;
 
-    public PersonResource(PersonService personService, PersonInfoService personInfoService) {
+    public PersonResource(PersonService personService, PersonInfoServiceImpl personInfoService) {
         this.personService = personService;
         this.personInfoService = personInfoService;
     }
@@ -54,6 +56,8 @@ public class PersonResource {
         if (personFullDTO.getId() != null) {
             throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        System.out.println("intentando guardar el objeto person");
+        //aqui se guarda el object person
         PersonDTO result = personInfoService.save(personFullDTO);
         return ResponseEntity.created(new URI("/api/people/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

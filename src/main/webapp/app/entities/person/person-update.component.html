@@ -10,64 +10,70 @@
         <!--public userId?: number,-->
         <!--public addresses?: IAddress[],-->
         <!--public personContacts?: IPersonContact[]-->
-        <form name="editForm" role="form" [formGroup]="myForm" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-address-heading">Create or edit a Person</h2>
+        <form  name="myForm" [formGroup]="myForm" (ngSubmit)="save()">
+            <h2>Create  a Person</h2>
             <div class="form-group">
                 <label for="id">ID</label>
-                <input type="text" class="form-control" id="id" name="id"
-                         />
+                <input type="number" class="form-control" formControlName="id" id="id" name="id"
+                />
 
             </div>
             <div class="form-group">
-                <label for="id">FULL NAME</label>
-                <input type="text" class="form-control"  required ngModel formControlName="fullname" id="fullname" name="fullname" #fullname="ngModel"
-                        />
-                <div class="alert alert-danger" *ngIf=" fullname.touched && !fullname.valid" >
-                    <label>full name is required</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="id">Document Number</label>
-                <input type="text" class="form-control" ngModel id="documentNumber" name="documentNumber"
+                <label>FULL NAME</label>
+                <input type="text" class="form-control" required formControlName="fullname" id="fullname"
+                       name="fullname"
                 />
             </div>
             <div class="form-group">
-                <label for="id">Document Type</label>
-                <input type="text" class="form-control" ngModel id="documentType" name="documentType"
+                <label>Document Number</label>
+                <input type="number" class="form-control" formControlName="documentNumber" id="documentNumber"
+                       name="documentNumber"
                 />
             </div>
             <div class="form-group">
-                <label for="id">Birthday</label>
-                <input type="text" class="form-control" ngModel id="birthday" name="fullname"
-                />
-            </div>
-            <div class="form-group">
-                <label for="id">Gender</label>
-                <input type="text" class="form-control" ngModel id="gender" name="gender"
-                />
-            </div>
-            <div class="form-group">
-                <label for="id">User Login</label>
-                <input type="text" class="form-control" ngModel id="userLogin" name="userLogin"
-                />
-            </div>
-            <div class="form-group">
-                <label for="id">Addresses</label>
-                <input type="text" class="form-control" ngModel id="addresses" name="addresses"
-                />
-            </div>
-            <div class="form-group">
-                <label for="id">Person contacts</label>
-                <input type="text" class="form-control" ngModel id="personContacts" name="personContacts"
-                />
-            </div>
+                <label>Document Type</label>
+                <select type="text" class="form-control" formControlName="documentType" id="documentType"
+                       name="documentType">
+                    <option value="0">ID</option>
+                    <option value="1">PASSPORT</option>
+                    </select>
 
+            </div>
+            <div class="form-group">
+                <label>Birthday</label>
+                <input type="date" class="form-control" formControlName="birthday" id="birthday" name="birthday"
+                />
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select type="text" class="form-control" formControlName="gender" id="gender" name="gender">
+                    <option value="0">MALE</option>
+                    <option value="1">FEMALE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>User Login</label>
+                <input type="text" class="form-control" formControlName="userLogin" id="userLogin" name="userLogin"
+                />
+            </div>
+            <div class="form-group">
+                <label>Addresses</label>
+                <input type="text" class="form-control" formControlName="addresses" id="addresses" name="addresses"
+                />
+            </div>
+            <div class="form-group">
+                <label>Person contacts</label>
+                <input type="text" class="form-control" formControlName="personContacts" id="personContacts"
+                       name="personContacts"
+                />
+            </div>
 
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

@@ -53,6 +53,7 @@ export class PersonService {
         const copy: IPerson = Object.assign({}, person, {
             birthday: person.birthday != null && person.birthday.isValid() ? person.birthday.format(DATE_FORMAT) : null
         });
+        console.log(copy);
         return copy;
     }
 
