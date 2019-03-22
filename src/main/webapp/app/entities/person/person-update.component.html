@@ -1,71 +1,74 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <!--public id?: number,-->
-        <!--public fullname?: string,-->
-        <!--public documentNumber?: string,-->
-        <!--public documentType?: PersonDocumentType,-->
-        <!--public birthday?: Moment,-->
-        <!--public gender?: Gender,-->
-        <!--public userLogin?: string,-->
-        <!--public userId?: number,-->
-        <!--public addresses?: IAddress[],-->
-        <!--public personContacts?: IPersonContact[]-->
-        <form  name="myForm" [formGroup]="myForm" (ngSubmit)="save()">
-            <h2>Create  a Person</h2>
-            <div class="form-group">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2>Create or edit a Person</h2>
+            <div class="form-group" [hidden]="!person.id">
                 <label for="id">ID</label>
-                <input type="number" class="form-control" formControlName="id" id="id" name="id"
-                />
-
+                <input type="text" class="form-control" [(ngModel)]="person.id" id="id" name="id" readonly/>
             </div>
             <div class="form-group">
                 <label>FULL NAME</label>
-                <input type="text" class="form-control" required formControlName="fullname" id="fullname"
-                       name="fullname"
-                />
+                <input type="text" class="form-control" required [(ngModel)]="person.fullname" id="fullname"
+                       name="fullname"/>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.fullname?.errors?.required">
+                    This field is required.
+                </small>
             </div>
             <div class="form-group">
                 <label>Document Number</label>
-                <input type="number" class="form-control" formControlName="documentNumber" id="documentNumber"
-                       name="documentNumber"
-                />
+                <input type="number" class="form-control" required [(ngModel)]="person.documentNumber"
+                       id="documentNumber"
+                       name="documentNumber"/>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.documentNumber?.errors?.required">
+                    This field is required.
+                </small>
             </div>
             <div class="form-group">
                 <label>Document Type</label>
-                <select type="text" class="form-control" formControlName="documentType" id="documentType"
-                       name="documentType">
-                    <option value="0">ID</option>
-                    <option value="1">PASSPORT</option>
-                    </select>
-
+                <select type="text" class="form-control" required [(ngModel)]="person.documentType" id="documentType"
+                        name="documentType">
+                    <option value="ID">ID</option>
+                    <option value="PASSPORT">PASSPORT</option>
+                </select>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.documentType?.errors?.required">
+                    This field is required.
+                </small>
             </div>
             <div class="form-group">
                 <label>Birthday</label>
-                <input type="date" class="form-control" formControlName="birthday" id="birthday" name="birthday"
-                />
+                <input type="date" class="form-control" required [(ngModel)]="person.birthday" id="birthday"
+                       name="birthday"/>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.birthday?.errors?.required">
+                    This field is required.
+                </small>
             </div>
             <div class="form-group">
                 <label>Gender</label>
-                <select type="text" class="form-control" formControlName="gender" id="gender" name="gender">
-                    <option value="0">MALE</option>
-                    <option value="1">FEMALE</option>
+                <select type="text" class="form-control" required [(ngModel)]="person.gender" id="gender" name="gender">
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>User Login</label>
-                <input type="text" class="form-control" formControlName="userLogin" id="userLogin" name="userLogin"
-                />
+                <input type="text" class="form-control" [(ngModel)]="person.userLogin" id="userLogin" name="userLogin"/>
+            </div>
+            <div class="form-group" [hidden]="!person.userId">
+                <label for="id">ID</label>
+                <input type="text" class="form-control" [(ngModel)]="person.userId" id="userId" name="userId" readonly/>
             </div>
             <div class="form-group">
                 <label>Addresses</label>
-                <input type="text" class="form-control" formControlName="addresses" id="addresses" name="addresses"
-                />
+                <input type="text" class="form-control" [(ngModel)]="person.addresses" id="addresses" name="addresses"/>
             </div>
             <div class="form-group">
                 <label>Person contacts</label>
-                <input type="text" class="form-control" formControlName="personContacts" id="personContacts"
-                       name="personContacts"
-                />
+                <input type="text" class="form-control" [(ngModel)]="person.personContacts" id="personContacts"
+                       name="personContacts"/>
             </div>
 
             <div>

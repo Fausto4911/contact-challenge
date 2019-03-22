@@ -8,7 +8,6 @@ import { JhiAlertService } from 'ng-jhipster';
 import { Gender, IPerson, PersonDocumentType } from 'app/shared/model/person.model';
 import { PersonService } from './person.service';
 import { IUser, UserService } from 'app/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 
 @Component({
@@ -16,18 +15,6 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
     templateUrl: './person-update.component.html'
 })
 export class PersonUpdateComponent implements OnInit {
-    myForm = new FormGroup({
-        id: new FormControl(),
-        fullname: new FormControl(),
-        documentNumber: new FormControl(),
-        documentType: new FormControl(),
-        birthday: new FormControl(),
-        gender: new FormControl(),
-        userLogin: new FormControl(),
-        userId: new FormControl(),
-        addresses: new FormControl(),
-        personContacts: new FormControl()
-    });
     person: IPerson;
     isSaving: boolean;
     users: IUser[];
@@ -74,13 +61,11 @@ export class PersonUpdateComponent implements OnInit {
 
     protected save() {
         this.isSaving = true;
-        this.fillPersonObjectFromForm();
+        console.log('new changes!!!');
+        var dateString = this.person.birthday;
+        this.birthdayDp = moment(dateString, DATE_FORMAT);
+        this.person.birthday = this.birthdayDp;
         console.log(this.person);
-        // if (this.person.id !== undefined) {
-        //     this.subscribeToSaveResponse(this.personService.update(this.person));
-        // } else {
-        //     this.subscribeToSaveResponse(this.personService.create(this.person));
-        // }
         this.subscribeToSaveResponse(this.personService.create(this.person));
     }
 
@@ -90,25 +75,5 @@ export class PersonUpdateComponent implements OnInit {
 
     trackUserById(index: number, item: IUser) {
         return item.id;
-    }
-
-    private fillPersonObjectFromForm() {
-        var dateString = this.myForm.value.birthday;
-        var momentObj = moment(dateString, DATE_FORMAT);
-        var docType = PersonDocumentType.PASSPORT;
-        if (this.myForm.value.documentType == 0) docType = PersonDocumentType.ID;
-        var gender = Gender.FEMALE;
-        if (this.myForm.value.gender == 0) gender = Gender.MALE;
-
-        this.person.id = this.myForm.value.id;
-        this.person.fullname = this.myForm.value.fullname;
-        this.person.documentNumber = this.myForm.value.documentNumber;
-        this.person.documentType = docType;
-        this.person.birthday = momentObj;
-        this.person.gender = gender;
-        this.person.userLogin = this.myForm.value.userLogin;
-        this.person.userId = this.myForm.value.userId;
-        this.person.addresses = this.myForm.value.addresses;
-        this.person.personContacts = this.myForm.value.personContacts;
     }
 }

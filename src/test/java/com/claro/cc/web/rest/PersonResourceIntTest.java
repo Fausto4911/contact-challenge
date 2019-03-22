@@ -7,6 +7,7 @@ import com.claro.cc.repository.PersonRepository;
 import com.claro.cc.service.PersonInfoService;
 import com.claro.cc.service.PersonService;
 import com.claro.cc.service.dto.PersonDTO;
+import com.claro.cc.service.impl.PersonInfoServiceImpl;
 import com.claro.cc.service.mapper.PersonMapper;
 import com.claro.cc.web.rest.errors.ExceptionTranslator;
 
@@ -73,7 +74,7 @@ public class PersonResourceIntTest {
     private PersonService personService;
 
     @Autowired
-    private PersonInfoService personInfoService;
+    private PersonInfoServiceImpl personInfoService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

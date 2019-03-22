@@ -30,6 +30,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
     private PersonMapper personMapper;
 
     @Override
+    @Transactional
     public PersonFullDTO save(PersonFullDTO personFullDTO) {
 
         Person person = personMapper.toEntity(personFullDTO);
